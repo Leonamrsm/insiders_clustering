@@ -3,6 +3,8 @@ insiders_clustering
 
 This repository contains the solution of clustering valuable clients in order to launch a loyalty program called insiders.
 
+This project was made by Leonam Miranda
+
 Project Organization
 ------------
 
@@ -55,3 +57,65 @@ Project Organization
 --------
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
+
+# 1. Business Problem
+
+# 2. Business Assumptions
+
+# 3. Solution Strategy
+
+My strategy to solve this challenge was:
+
+**Step 01. Data Description:**  
+**Step 02. Feature Engineering:**  
+**Step 03. Data Filtering:**  
+**Step 04. Exploratory Data Analysis:**  
+**Step 05. Data Preparation:**  
+**Step 06. Feature Selection:**  
+**Step 07. Machine Learning Modelling:**  
+**Step 08. Hyperparameter Fine Tuning:**  
+**Step 09. Convert Model Performance to Business Values:**  
+**Step 10. Deploy Model to Production:**  
+
+### 4. Top 3 Data Insights
+
+**Hypothesis 01:**
+True/False.
+
+**Hypothesis 02:**
+True/False.
+
+**Hypothesis 03:**
+True/False.
+
+---
+
+# 5. Machine Learning Model Applied
+
+---
+
+# 6. Machine Learning Modelo Performance
+
+---
+
+# 7. Business Results
+
+---
+
+# 8. Conclusions
+
+---
+
+# 9. Lessons Learned
+
+---
+
+# 10. Next Steps to Improve
+
+---
+
+# LICENSE
+
+---
+
+All Rights Reserved - 2025
