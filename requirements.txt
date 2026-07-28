@@ -11,3 +11,5 @@ scikit-learn==1.7.2
 setuptools==80.9.0
 SQLAlchemy==2.0.51
 umap-learn==0.5.9.post2
+numba==0.58.1
+llvmlite==0.41.1
