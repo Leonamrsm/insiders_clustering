@@ -93,3 +93,5 @@ reports/*.ipynb
 
 # Do not track serialized Python objects (pickle artifacts)
 *.pkl
+
+.python-version
