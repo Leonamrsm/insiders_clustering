@@ -1,21 +1,19 @@
 #!/bin/bash
 
-# Initialize pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-
-eval "$(pyenv init -)"
-
-# Activate the desired Python version
-pyenv shell insiders-clustering
-
 # Timestamp
 dateTimeExecution=$(date +'%Y%m%d_%H%M%S')
 
-# Project root
-ROOT_DIR="$(cd "$(dirname "$0")" && pwd)"
+# Project paths
+ROOT_DIR="/home/ubuntu/insiders_clustering"
+PYENV_BIN="/home/ubuntu/.pyenv/versions/3.11.14/envs/insiders-clustering/bin"
 
-# Execute Papermill
-papermill \
+# Set project working directory
+cd "$ROOT_DIR"
+
+echo "Pipeline started at $(date)"
+
+"$PYENV_BIN/papermill" \
     "$ROOT_DIR/src/models/c10_lr_deploy.ipynb" \
     "$ROOT_DIR/reports/c10_lr_deploy_${dateTimeExecution}.ipynb"
+
+echo "Pipeline finished successfully at $(date)"
