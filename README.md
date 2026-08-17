@@ -10,7 +10,7 @@
 <img src="images/insiders_clustering_overview.png"
      alt="Insiders Clustering Overview"
      width="100%"
-     height="300"
+     height="550"
      style="object-fit: cover;">
 
 
