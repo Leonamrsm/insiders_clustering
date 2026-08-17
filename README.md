@@ -193,7 +193,7 @@ Measuring the incremental impact of the loyalty programme would require an A/B t
 | Silhouette score | 0.482 |
 | Modelling population | 5,695 customers |
 
-### 9.2 UMAP 2D Cluster Map
+### 9. UMAP 2D Cluster Map
 
 The UMAP projection is the selected embedding used by the final clustering model. It should be displayed with colour-coded cluster labels to communicate the separability and relative density of the customer groups.
 
@@ -252,6 +252,10 @@ Two dashboards translate the model output into business decisions:
 └── setup.py
 ```
 
+Multiple analysis, feature-engineering, modelling, and validation cycles were carried out in `notebooks/`. The consolidated final version is [c08_lr_validation of hypothesis.ipynb](<notebooks/c08_lr_validation of hypothesis.ipynb>).
+
+The `reports/` directory contains project outputs, including the [customer profile report](reports/customer_profile_report.html) and visual assets. The `Dockerfile` packages the Metabase dashboard with the processed SQLite database and persisted Metabase configuration, exposing the application on port `10000`.
+
 ## Technologies
 
 | Category | Technologies |
@@ -307,6 +311,7 @@ DB_PASSWORD=TO_DO
 
 - Add data-quality checks, structured logging, retries, and alerting to the production pipeline.
 - Monitor cluster stability, data drift, and segment movement over time.
+- Evaluate additional clustering models across the original feature space and embeddings with more than two dimensions; use Bayesian optimisation to tune embedding and model hyperparameters jointly.
 - Validate campaign impact with an A/B test or another controlled experiment.
 - Enrich the dataset with product, payment, demographic, and channel attributes to test additional hypotheses.
 
