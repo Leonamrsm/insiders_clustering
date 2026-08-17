@@ -7,11 +7,7 @@
 [![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
 [![Metabase](https://img.shields.io/badge/Metabase-509EE3?logo=metabase&logoColor=white)](https://www.metabase.com/)
 
-<img src="images/insiders_clustering_overview.png"
-     alt="Insiders Clustering Overview"
-     width="100%"
-     height="550"
-     style="object-fit: cover;">
+![Insiders Clustering Overview](images/insiders_clustering_overview.png)
 
 
 
