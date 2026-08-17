@@ -12,13 +12,6 @@
 
 
 End-to-end customer segmentation for an e-commerce loyalty programme. The project transforms transaction-level data into actionable customer groups, identifies the highest-value **Core Insiders** segment, and delivers results through an automated AWS pipeline and Metabase.
-## Next Steps
-
-- Add data-quality checks, structured logging, retries, and alerting to the production pipeline.
-- Monitor cluster stability, data drift, and segment movement over time.
-- Validate campaign impact with an A/B test or another controlled experiment.
-- Enrich the dataset with product, payment, demographic, and channel attributes to test additional hypotheses.
-
 
 ## Project Overview
 
@@ -30,14 +23,18 @@ The primary analysis and validation are in [c08_lr_validation of hypothesis.ipyn
 
 ## Business Problem
 
-The company operates an e-commerce business and intends to launch **Insiders**, a loyalty programme for its most valuable customers. The objective is to segment customers by purchasing behaviour and identify the group that merits priority treatment, without reducing customer value to revenue alone.
+The company operates an e-commerce business and intends to launch **Insiders**, a loyalty programme for its most valuable customers. The business needs a repeatable, data-driven way to answer three questions: **who should receive priority loyalty benefits, how valuable is this group, and what action should be taken for every other customer profile?**
 
-The final output must be actionable: high-value active customers can receive exclusive retention benefits; valuable but less active groups can be reactivated; lower-value active groups can be targeted for upsell; and unusual return patterns can be monitored as an operational risk## Next Steps
+The objective is therefore to transform transaction history into customer segments using more than revenue alone. The analysis combines historical revenue, purchasing recency, purchasing volume, purchase frequency, and return behaviour to identify the **Core Insiders** group and quantify its contribution to the business.
+
+The final output must be actionable: Core Insiders can receive exclusive loyalty and retention benefits; valuable but less active groups can receive reactivation campaigns; active lower-value groups can be targeted for upsell and cross-sell; and customers with unusual return behaviour can be monitored as an operational risk.
+
+## Next Steps
 
 - Add data-quality checks, structured logging, retries, and alerting to the production pipeline.
 - Monitor cluster stability, data drift, and segment movement over time.
 - Validate campaign impact with an A/B test or another controlled experiment.
-- Enrich the dataset with product, payment, demographic, and channel attributes to test additional hypotheses..
+- Enrich the dataset with product, payment, demographic, and channel attributes to test additional hypotheses.
 
 ## Dataset
 
@@ -180,6 +177,22 @@ Clusters are ranked by average gross revenue and relabelled from 1 (highest aver
 The validation confirms the commercial relevance of the Insiders group: Cluster 1 represents **30.68%** of customers, **55.79%** of purchased product records, and **66.35%** of total gross revenue. Its median revenue is at least 10% higher than the population median.
 
 Measuring the incremental impact of the loyalty programme would require an A/B test with real customers, comparing eligible customers who receive the Insiders benefits with a randomly assigned control group. This causal validation is outside the scope of this academic portfolio project.
+
+### Business Questions: Answers from the Validation
+
+The answers below reflect the results in [c08_lr_validation of hypothesis.ipynb](<notebooks/c08_lr_validation of hypothesis.ipynb>). They describe the historical transactional data used in this project; they do not measure the causal effect of a loyalty benefit.
+
+| Business question | Answer supported by the analysis |
+| --- | --- |
+| Who is eligible to join Insiders? | Customers assigned to **Cluster 1 — Core Insiders** by the deployed clustering pipeline. The pipeline produces the customer-level eligibility list (`customer_id`, cluster / `is_insider`). |
+| How many customers are in the group? | **1,747 customers**, or **30.68%** of the 5,695-customer modelling population. |
+| What are their main characteristics? | They have the highest average historical revenue (**3,837.67**), recent purchasing activity (**17.17** average recency days), the largest purchasing volume (**168.42** product records on average), and **43.60** average returned items. The returns should be monitored, but occur alongside exceptionally high purchasing volume. |
+| What share of revenue comes from Insiders? | **66.35%** of total gross revenue. Insiders also account for **55.79%** of purchased product records. |
+| What is the revenue forecast for the upcoming months? | **Not answered in this cycle.** The clustering analysis is cross-sectional and does not provide a time-series forecast. A future cycle should use historical Insiders revenue in a time-series model and/or cohort analysis. |
+| What are the eligibility conditions? | The customer must be classified as Cluster 1 using the five validated behavioural features: gross revenue, recency, product count, purchase frequency, and returns. In business terms, the group combines very high value and volume with recent activity. |
+| What are the removal conditions? | Re-score customers on the review cycle and remove them when they no longer belong to Cluster 1—typically after sustained inactivity, reduced revenue or purchasing volume, or high returns combined with low volume. The appropriate review cadence is a business decision and was not tested in the notebook. |
+| What guarantees Insiders performs better than the rest of the base? | There is **no causal guarantee** from this analysis. The segment has stronger historical results (66.35% of revenue from 30.68% of customers), but an A/B test with eligible customers and a control group is required to measure the incremental effect of the programme. |
+| What can Marketing do to increase revenue? | Retain and reward Core Insiders; upsell/cross-sell the mid-tier segments; run win-back campaigns for less-engaged segments; and control exposure to high-return, low-value customers. |
 
 ### 8. Final Model
 
