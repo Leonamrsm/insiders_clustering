@@ -12,7 +12,12 @@
 
 
 End-to-end customer segmentation for an e-commerce loyalty programme. The project transforms transaction-level data into actionable customer groups, identifies the highest-value **Core Insiders** segment, and delivers results through an automated AWS pipeline and Metabase.
+## Next Steps
 
+- Add data-quality checks, structured logging, retries, and alerting to the production pipeline.
+- Monitor cluster stability, data drift, and segment movement over time.
+- Validate campaign impact with an A/B test or another controlled experiment.
+- Enrich the dataset with product, payment, demographic, and channel attributes to test additional hypotheses.
 
 
 ## Project Overview
@@ -27,7 +32,12 @@ The primary analysis and validation are in [c08_lr_validation of hypothesis.ipyn
 
 The company operates an e-commerce business and intends to launch **Insiders**, a loyalty programme for its most valuable customers. The objective is to segment customers by purchasing behaviour and identify the group that merits priority treatment, without reducing customer value to revenue alone.
 
-The final output must be actionable: high-value active customers can receive exclusive retention benefits; valuable but less active groups can be reactivated; lower-value active groups can be targeted for upsell; and unusual return patterns can be monitored as an operational risk.
+The final output must be actionable: high-value active customers can receive exclusive retention benefits; valuable but less active groups can be reactivated; lower-value active groups can be targeted for upsell; and unusual return patterns can be monitored as an operational risk## Next Steps
+
+- Add data-quality checks, structured logging, retries, and alerting to the production pipeline.
+- Monitor cluster stability, data drift, and segment movement over time.
+- Validate campaign impact with an A/B test or another controlled experiment.
+- Enrich the dataset with product, payment, demographic, and channel attributes to test additional hypotheses..
 
 ## Dataset
 
@@ -140,6 +150,15 @@ The principal internal metric is the Euclidean silhouette score, supported by si
 Although some higher values of k achieve better silhouette scores, k=10 was selected as a balance between cluster separation and business interpretability. This provides a practical number of actionable customer segments while maintaining strong clustering performance. The deployed solution uses the fitted 10-cluster K-Means model on the UMAP-based representation.
 
 <img src="images/silhouette_facet.png" width="1200">
+
+
+#### Silhouette Analysis ($k=10$)
+
+* **Overall Metric:** Mean silhouette coefficient of **0.482** (outperforming $k=3, 5, 8$), indicating reasonable overall cluster separation.
+* **Cluster Quality:** Most clusters (0, 1, 2, 3, 5, 7, 8, and 9) exceed the global mean for internal cohesion.
+* **Key Limitations:** 
+  * **Noise/Overlap:** **Cluster 6** displays negative silhouette values, pointing to misclassified or overlapping samples.
+  * **Imbalance:** Significant variation in cluster sizes, with **Cluster 2** holding a disproportionately large share of the data compared to smaller groups (4, 6, and 7).
 
 ### 7. Cluster Profiling and Hypothesis Validation
 
@@ -286,8 +305,6 @@ DB_PASSWORD=TO_DO
 
 ## Next Steps
 
-- Add the silhouette and UMAP figures referenced above.
-- Add the Metabase dashboard GIF after publishing it to GitHub.
 - Add data-quality checks, structured logging, retries, and alerting to the production pipeline.
 - Monitor cluster stability, data drift, and segment movement over time.
 - Validate campaign impact with an A/B test or another controlled experiment.
