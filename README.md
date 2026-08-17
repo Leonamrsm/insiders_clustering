@@ -137,9 +137,9 @@ The principal internal metric is the Euclidean silhouette score, supported by si
 | 5 | K-Means | Leaf embedding + UMAP (2D) | 0.424 | Not selected |
 | 6 | GMM | UMAP (2D) | 0.400 | Not selected |
 
-Although some higher values of `k` produce a better silhouette score, **k=10** was selected because it offers a practical number of actionable groups while retaining strong separation. The deployed solution reuses the fitted 10-cluster K-Means model over UMAP 2D.
+Although some higher values of k achieve better silhouette scores, k=10 was selected as a balance between cluster separation and business interpretability. This provides a practical number of actionable customer segments while maintaining strong clustering performance. The deployed solution uses the fitted 10-cluster K-Means model on the UMAP-based representation.
 
-**TO DO — silhouette plots:** add the “knife” / silhouette facet plot generated in section 6.0, comparing `k = 3, 5, 8, 10, 12, 15`.
+<img src="images/silhouette_facet.png" width="1200">
 
 ### 7. Cluster Profiling and Hypothesis Validation
 
@@ -178,29 +178,23 @@ Measuring the incremental impact of the loyalty programme would require an A/B t
 
 The UMAP projection is the selected embedding used by the final clustering model. It should be displayed with colour-coded cluster labels to communicate the separability and relative density of the customer groups.
 
-**TO DO — UMAP visual:** add the UMAP 2D scatter plot with K-Means cluster colours from section 9.2 here.
+![cluster_validation](images/cluster_validation.png)
+
 
 ## Production Architecture
 
-```mermaid
-flowchart TD
-    S3[Amazon S3<br/>Raw CSV and versioned model artifacts] --> EC2[Amazon EC2]
-    EC2 --> CRON[Daily cron]
-    CRON --> PM[run_model_ec2.sh<br/>Papermill]
-    PM --> PIPE[Automated clustering pipeline<br/>Cleaning → features → scalers → UMAP → K-Means → profiling]
-    PIPE --> RDS[Amazon RDS<br/>PostgreSQL: insiders table]
-    RDS --> META[Metabase dashboards]
-    META --> USERS[Business users]
-```
+
+![project_architecture](images/project_architecture.png)
 
 | Component | Responsibility |
 | --- | --- |
-| Amazon S3 | Stores the raw CSV and versioned scaler, UMAP, and K-Means artefacts. |
-| Amazon EC2 | Hosts the repository and triggers the scheduled execution. |
-| `run_model_ec2.sh` + Papermill | Executes the production notebook daily and saves a timestamped execution report. |
-| Production pipeline | Applies the validated cleaning and transformations, assigns clusters, and profiles customers. |
-| Amazon RDS / PostgreSQL | Persists the `insiders` table, including the model version and prediction timestamp. |
-| Metabase | Delivers interactive dashboards to business users. |
+| ![Amazon S3](https://img.shields.io/badge/Amazon_S3-569A31?style=flat&logo=amazons3&logoColor=white) | Stores the raw CSV and versioned scaler, UMAP, and K-Means artefacts. |
+| ![Amazon EC2](https://img.shields.io/badge/Amazon_EC2-FF9900?style=flat&logo=amazonec2&logoColor=white) **Pipeline** | Hosts the repository and triggers the scheduled model execution. |
+| ![Papermill](https://img.shields.io/badge/Papermill-3776AB?style=flat&logo=python&logoColor=white) `run_model_ec2.sh` | Executes the production notebook daily and saves a timestamped execution report. |
+| ![ML Pipeline](https://img.shields.io/badge/ML_Pipeline-412991?style=flat&logo=scikitlearn&logoColor=white) | Applies the validated cleaning and transformations, assigns clusters, and profiles customers. |
+| ![Amazon RDS](https://img.shields.io/badge/Amazon_RDS-527FFF?style=flat&logo=amazonrds&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat&logo=postgresql&logoColor=white) | Persists the `insiders` table, including the model version and prediction timestamp. |
+| ![Amazon EC2](https://img.shields.io/badge/Amazon_EC2-FF9900?style=flat&logo=amazonec2&logoColor=white) **Metabase** | Hosts the Metabase service in a Docker container and connects to the PostgreSQL database. |
+| ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white) · ![Metabase](https://img.shields.io/badge/Metabase-509EE3?style=flat&logo=metabase&logoColor=white) | Delivers interactive dashboards to business users. |
 
 The production notebook reuses the model artefacts stored in S3 under the configured model version. The database uses `(customer_id, model_version)` as its primary key, avoiding duplicate inserts for an already processed version.
 
@@ -211,29 +205,32 @@ Two dashboards translate the model output into business decisions:
 - **Cluster overview:** compares customer count, revenue, purchasing volume, recency, frequency, and returns across all groups.
 - **Core Insiders:** focuses on the highest-priority segment for loyalty, retention, and campaign targeting.
 
-**TO DO — add the Metabase GIF:** upload the GIF to the repository (for example, `reports/figures/metabase_dashboards.gif`) and replace this note with:
-
-```markdown
-![Metabase dashboards](reports/figures/metabase_dashboards.gif)
-```
+<video src="reports/videos/meatabe_vizualization.webm" width="100%" controls muted loop autoplay>
+    Seu navegador não suporta a exibição de vídeos HTML5.
+</video>
 
 ## Project Structure
 
 ```text
 .
 ├── data/
-│   ├── raw/Ecommerce.csv                         # Development input
-│   └── processed/                                # Local development outputs
-├── notebooks/
-│   └── c08_lr_validation of hypothesis.ipynb    # Analysis, tuning and validation
+│   ├── raw/Ecommerce.csv                 # Development dataset
+│   └── processed/insiders_db.sqlite      # Database used by the dashboard
+├── notebooks/                            # Analysis and experimentation cycles
+│   └── c08_lr_validation of hypothesis.ipynb  # Final analysis and validation
 ├── reports/
-│   └── figures/                                  # Figures and dashboard media
+│   ├── customer_profile_report.html      # Customer profiling report
+│   └── figures/                          # Project visualizations
 ├── src/
-│   ├── data/                                     # Data loading utilities
-│   ├── features/                                 # Feature / column transformations
-│   └── models/c10_lr_deploy.ipynb                # Production pipeline
-├── run_model.sh                                  # Local Papermill runner
-├── run_model_ec2.sh                              # EC2 scheduled runner
+│   ├── data/                             # Data loading and preparation
+│   ├── features/                         # Feature transformations and scalers
+│   └── models/
+│       ├── c10_lr_deploy.ipynb           # Production pipeline
+│       ├── kmeans_model.pkl              # Trained clustering model
+│       └── umap_embedding.pkl            # Trained UMAP embedding
+├── Dockerfile                            # Metabase dashboard container
+├── run_model.sh                          # Local pipeline runner
+├── run_model_ec2.sh                      # EC2 scheduled runner
 ├── requirements.txt
 └── setup.py
 ```
