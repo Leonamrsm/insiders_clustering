@@ -205,9 +205,7 @@ Two dashboards translate the model output into business decisions:
 - **Cluster overview:** compares customer count, revenue, purchasing volume, recency, frequency, and returns across all groups.
 - **Core Insiders:** focuses on the highest-priority segment for loyalty, retention, and campaign targeting.
 
-<video src="reports/videos/meatabe_vizualization.webm" width="100%" controls muted loop autoplay>
-    Seu navegador não suporta a exibição de vídeos HTML5.
-</video>
+![Metabase visualization](reports/videos/meatabe_vizualization.gif)
 
 ## Project Structure
 
