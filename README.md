@@ -215,6 +215,7 @@ The image below shows the UMAP 2D projection, which was selected as the embeddin
 
 ## Production Architecture
 
+The diagram below presents a high-level overview of the project's architecture, illustrating the end-to-end data flow—from initial storage and automated processing to persistence and final visualization for business users.
 
 ![project_architecture](images/project_architecture.png)
 
