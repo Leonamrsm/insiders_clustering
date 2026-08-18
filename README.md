@@ -208,7 +208,7 @@ The answers below reflect the results in [c08_lr_validation of hypothesis.ipynb]
 
 ### 9. UMAP 2D Cluster Map
 
-The UMAP projection is the selected embedding used by the final clustering model. It should be displayed with colour-coded cluster labels to communicate the separability and relative density of the customer groups.
+The image below shows the UMAP 2D projection, which was selected as the embedding used by the final clustering model. Each point represents a customer, and the different colors represent the distinct segments identified using this embedding.
 
 ![cluster_validation](images/cluster_validation.png)
 
