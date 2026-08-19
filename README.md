@@ -23,18 +23,28 @@ The primary analysis and validation are in [c08_lr_validation of hypothesis.ipyn
 
 ## Business Problem
 
-The company operates an e-commerce business and intends to launch **Insiders**, a loyalty programme for its most valuable customers. The business needs a repeatable, data-driven way to answer three questions: **who should receive priority loyalty benefits, how valuable is this group, and what action should be taken for every other customer profile?**
+The company operates an e-commerce business and intends to launch **Insiders**, a loyalty programme for its most valuable customers. The business needs a repeatable, data-driven process to identify the people who will be part of the programme.
 
-The objective is therefore to transform transaction history into customer segments using more than revenue alone. The analysis combines historical revenue, purchasing recency, purchasing volume, purchase frequency, and return behaviour to identify the **Core Insiders** group and quantify its contribution to the business.
+The primary deliverable is a client-level eligibility list:
 
-The final output must be actionable: Core Insiders can receive exclusive loyalty and retention benefits; valuable but less active groups can receive reactivation campaigns; active lower-value groups can be targeted for upsell and cross-sell; and customers with unusual return behaviour can be monitored as an operational risk.
+| client_id | is_insider |
+| --- | --- |
+| 10451 | yes |
+| 10452 | no |
 
-## Next Steps
+The analysis transforms transaction history into customer segments using more than revenue alone. It combines historical revenue, purchasing recency, purchasing volume, purchase frequency, and return behaviour to determine eligibility for the **Insiders** programme.
 
-- Add data-quality checks, structured logging, retries, and alerting to the production pipeline.
-- Monitor cluster stability, data drift, and segment movement over time.
-- Validate campaign impact with an A/B test or another controlled experiment.
-- Enrich the dataset with product, payment, demographic, and channel attributes to test additional hypotheses.
+The resulting business report answers the following questions:
+
+- Who are the eligible people to join the Insiders program?
+- How many clients will be part of the group?
+- What are the main characteristics of these clients?
+- What is the revenue contribution percentage coming from Insiders?
+- What is the revenue forecast for this group in the upcoming months?
+- What are the conditions for someone to be eligible for the Insiders program?
+- What are the conditions for someone to be removed from the Insiders program?
+- What guarantees that the Insiders program performs better than the rest of the client base?
+- What actions can the marketing team take to increase revenue?
 
 ## Dataset
 
